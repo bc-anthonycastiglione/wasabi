@@ -1,4 +1,5 @@
 require "uri"
+require 'addressable/uri'
 require "wasabi/xpath_helper"
 require "wasabi/core_ext/string"
 
@@ -69,7 +70,7 @@ module Wasabi
       endpoint ||= at_xpath("wsdl:definitions/wsdl:service//soap12:address/@location")
 
       begin
-        @endpoint = URI(URI.escape(endpoint.to_s)) if endpoint
+        @endpoint = URI(Addressable::URI.unescape(endpoint.to_s)) if endpoint
       rescue URI::InvalidURIError
         @endpoint = nil
       end
